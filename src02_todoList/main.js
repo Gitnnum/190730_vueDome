@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-Vue.prototype.$bus = new Vue()
+// 定义一个全局事件总线对象
+Vue.prototype.$globalEventBus = new Vue()
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
