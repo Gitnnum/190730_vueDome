@@ -19,9 +19,14 @@
 		},
 		methods: {
 			add () {
+				const thing = this.thing.trim()
+				if (thing.length === 0) {
+					alert('请输入内容')
+					return
+				}
 				const todo = {
 					id: Date.now(),
-					title: this.title,
+					title,
 					complete: false
 				}
 				this.addTodo(todo)
