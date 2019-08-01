@@ -25,23 +25,6 @@ export default {
             todos: JSON.parse(localStorage.getItem('todo_key') || '[]')
         }
     },
-    methods: {
-        addTodo (todo) {
-            this.todos.unshift(todo)
-        },
-        updateTodo (todo, isCheck) {
-            todo.finish = isCheck
-        },
-        deleteTodo (index) {
-            this.todos.splice(index, 1)
-        },
-        selectAll (isCheck) {
-            this.todos.forEach((item) => (item.finish = isCheck))
-        },
-        deleteFinish () {
-            this.todos = this.todos.filter((item) => (!item.finish))
-        }
-    },
     computed: {
       finishCount () {
         return this.todos.reduce((pre, item) => (pre + (item.finish ? 1 : 0)), 0)
@@ -57,12 +40,30 @@ export default {
     },
     mounted () {
         this.$refs.add.$on('addTodo', this.addTodo)
-        this.$globalEventBus.$on('updateTodo', (data) => {
-            this.updateTodo(data.todo, data.finish)
-        })
+        // this.$globalEventBus.$on('updateTodo', (data) => {
+        //     this.updateTodo(data.todo, data.finish)
+        // })
+        this.$globalEventBus.$on('updateTodo', this.updateTodo)
         Pubsub.subscribe('deleteTodo', (msg, index) => {
             this.deleteTodo(index)
         })
+    },
+    methods: {
+        addTodo (todo) {
+            this.todos.unshift(todo)
+        },
+        updateTodo ({todo, finish}) {
+            todo.finish = finish
+        },
+        deleteTodo (index) {
+            this.todos.splice(index, 1)
+        },
+        selectAll (isCheck) {
+            this.todos.forEach((item) => (item.finish = isCheck))
+        },
+        deleteFinish () {
+            this.todos = this.todos.filter((item) => (!item.finish))
+        }
     },
     watch: {
         todos: {
