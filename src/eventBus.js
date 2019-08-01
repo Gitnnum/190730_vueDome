@@ -37,5 +37,6 @@ eventBus.on('delete', (data) => {
 })
 // eventBus.off()
 // eventBus.off('add')
+// eventBus.off('delete')
 eventBus.emit('add', 'add')
 eventBus.emit('delete', 'delete')
